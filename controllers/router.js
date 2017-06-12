@@ -3,6 +3,7 @@ var fetch = require('node-fetch');
 var crmUrl = 'https://crmint.iqmetrix.net/v1/Companies({CompanyID})';
 var customerEndpoint = '/CustomerFull({CustomerID})'
 var Conversation = require('../models/conversations');
+var cors = require('cors')
 
 var options = { 
   headers: {
@@ -18,7 +19,8 @@ module.exports = function(router) {
   });
 
   //Create Conversation
-  router.post('/company/:cid/conversation', (req, res) => {
+  router.options('/company/:cid/conversation', cors())
+  router.post('/company/:cid/conversation', cors(), (req, res) => {
 
 
     const customerCrmURL = crmUrl.replace('{CompanyID}', req.params.cid) + customerEndpoint.replace('{CustomerID}', req.body.crmId);

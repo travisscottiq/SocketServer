@@ -12,7 +12,6 @@ var twilioNotifications = require('./middleware/twilioNotifications');
 
 // Create Express web app
 var app = express();
-app.options('http://localhost:3000', cors());
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
 // Use morgan for HTTP request logging in dev and prod
 if (process.env.NODE_ENV !== 'test') {
