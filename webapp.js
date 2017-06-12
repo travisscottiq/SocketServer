@@ -12,16 +12,8 @@ var twilioNotifications = require('./middleware/twilioNotifications');
 
 // Create Express web app
 var app = express();
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', "http://localhost:3000");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-}
 
-app.use(cors());
-app.options('http://localhost:3000', cors());
-app.use(allowCrossDomain);
+app.use(cors({credentials: true, origin: 'localhost:3000'}))
 // Use morgan for HTTP request logging in dev and prod
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
@@ -60,19 +52,6 @@ var router = express.Router();
 
 routes(router);
 app.use(router);
-
-app.use(function (req, res, next) {
-
-   if (req.method === "OPTIONS") {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    console.log('hit');
-    } else {
-      res.header('Access-Control-Allow-Origin', '*');
-    }
-
-    // Pass to next layer of middleware
-    next();
-});
 
 // Handle 404
 app.use(function(request, response, next) {
