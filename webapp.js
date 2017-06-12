@@ -12,9 +12,16 @@ var twilioNotifications = require('./middleware/twilioNotifications');
 
 // Create Express web app
 var app = express();
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
 
 app.use(cors());
 app.options('*', cors());
+app.use(allowCrossDomain);
 // Use morgan for HTTP request logging in dev and prod
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
