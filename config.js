@@ -8,7 +8,7 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
 }
 
 // HTTP Port to run our web application
-cfg.port = 8000;
+cfg.port = process.env.PORT || 8000;
 
 // A random string that will help generate secure one-time passwords and
 // HTTP sessions
