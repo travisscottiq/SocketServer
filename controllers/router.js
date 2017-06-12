@@ -37,7 +37,7 @@ module.exports = function(router) {
             }],
             updatedAt: Date.now(),
             contactMethods: [],
-            selectedContactMethod: req.body.selectedContactMethodId || crmObject.ContactMethods[0].Id,
+            selectedContactMethod: req.body.selectedContactMethodId || '',
           });
           
           newConversation.save((err, newConversation) => {
