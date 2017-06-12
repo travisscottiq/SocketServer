@@ -22,9 +22,7 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Parse incoming form-encoded HTTP bodies
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.json());
 
 // Create and manage HTTP sessions for all requests
 app.use(session({
