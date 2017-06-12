@@ -23,17 +23,12 @@ module.exports = function(router) {
   router.post('/company/:cid/conversation', cors(), (req, res) => {
 
 
-    const customerCrmURL = crmUrl.replace('{CompanyID}', req.params.cid) + customerEndpoint.replace('{CustomerID}', req.body.crmId);
-    fetch(customerCrmURL, options)
-      .then(function(res) {
-          return res.text();
-      }).then(function(body) {
-          const crmObject = JSON.parse(body);
+
           var newConversation = new Conversation({
             customer: {
-              firstName: crmObject.PrimaryName, 
-              lastName: crmObject.FamilyName,
-              id: crmObject.Id
+              firstName: 'Travis', 
+              lastName: 'Scott',
+              id: '22'
             },
             employees: [{
               firstName: 'Iq',
@@ -41,7 +36,7 @@ module.exports = function(router) {
               id:'1'
             }],
             updatedAt: Date.now(),
-            contactMethods: crmObject.ContactMethods,
+            contactMethods: [],
             selectedContactMethod: req.body.selectedContactMethodId || crmObject.ContactMethods[0].Id,
           });
           
@@ -49,8 +44,6 @@ module.exports = function(router) {
             if(err) console.log(err);
             res.status(200).send(newConversation);
           });
-
-      });
   });
 
   router.get('/company/:cid/conversation', (req, res) => {
