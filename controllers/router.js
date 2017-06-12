@@ -22,13 +22,21 @@ module.exports = function(router) {
   router.options('/company/:cid/conversation', cors())
   router.post('/company/:cid/conversation', cors(), (req, res) => {
 
-
-
+    
+    const customerCrmURL = crmUrl.replace('{CompanyID}', req.params.cid) + customerEndpoint.replace('{CustomerID}', req.body.crmId);
+    var fetchObject = fetch(customerCrmURL, options)
+      .catch(function(err) {
+        console.log(err);
+      })
+      .then(function(res) {
+          return res.text();
+      }).then(function(body) {
+          const crmObject = JSON.parse(body);
           var newConversation = new Conversation({
             customer: {
-              firstName: 'Travis', 
-              lastName: 'Scott',
-              id: '22'
+              firstName: crmObject.PrimaryName, 
+              lastName: crmObject.FamilyName,
+              id: crmObject.Id
             },
             employees: [{
               firstName: 'Iq',
@@ -36,14 +44,17 @@ module.exports = function(router) {
               id:'1'
             }],
             updatedAt: Date.now(),
-            contactMethods: [],
-            selectedContactMethod: req.body.selectedContactMethodId || '',
+            contactMethods: crmObject.ContactMethods,
+            selectedContactMethod: req.body.selectedContactMethodId || crmObject.ContactMethods[0].Id,
           });
           
           newConversation.save((err, newConversation) => {
             if(err) console.log(err);
             res.status(200).send(newConversation);
           });
+
+      });
+      console.log(fetchObject);
   });
 
   router.get('/company/:cid/conversation', (req, res) => {
