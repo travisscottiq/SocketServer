@@ -6,7 +6,7 @@ var Conversation = require('../models/conversations');
 
 var options = { 
   headers: {
-    'Authorization': 'Bearer RXVFWfygRVlFbkRZReZ1WUV0Kz4iPQkXCxkuKXJAEW4QFwtscBAwbh85KDEcFwJsCB4gAQlHBzF0FyAVLhswDRYXHzMJMxI6HwU0',
+    'Authorization': 'Bearer MVB1Td3-ck0xS3RNMcNFTTFRAQ4JIhwZa2E9GloARToJMhcoeBEmL1o4ORRZFTc7RRQvNV09JCpcMR4ueSIUDGM2DAt7NzkffSMH',
     'Content-Type': 'application/json'
   }
 }
@@ -40,7 +40,7 @@ module.exports = function(router) {
             }],
             updatedAt: Date.now(),
             contactMethods: crmObject.ContactMethods,
-            selectedContactMethod: req.body.selectedContactMethodId,
+            selectedContactMethod: req.body.selectedContactMethodId || crmObject.ContactMethods[0].Id,
           });
           
           newConversation.save((err, newConversation) => {
