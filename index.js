@@ -45,7 +45,7 @@ io.on('connection', function(socket){
     });
   });
 });
-  mongoose.connect('mongodb://localhost:27017/myproject');
+  mongoose.connect('mongodb://iqmetrix:1234abcd@ds121622.mlab.com:21622/ekho');
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function() {
