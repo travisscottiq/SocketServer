@@ -20,7 +20,7 @@ var allowCrossDomain = function(req, res, next) {
 }
 
 app.use(cors());
-app.options('*', cors());
+app.options('http://localhost:3000', cors());
 app.use(allowCrossDomain);
 // Use morgan for HTTP request logging in dev and prod
 if (process.env.NODE_ENV !== 'test') {
