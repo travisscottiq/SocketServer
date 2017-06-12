@@ -3,7 +3,9 @@ var config = require('./config');
 // Create Express web app
 var app = require('./webapp');
 var server = http.createServer(app);
-var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(server, {log: false,
+        agent: false,
+        origins: '*:*'});
 var mongoose = require('mongoose');
 var Conversation = require('./models/conversations');
 var ObjectId = require('mongodb').ObjectID;
