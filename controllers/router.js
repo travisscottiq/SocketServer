@@ -18,6 +18,10 @@ module.exports = function(router) {
     throw new Error('Derp. An error occurred.');
   });
 
+   router.post('/message', (req, res) => {
+       console.log(req.body);
+    })
+
   //Create Conversation
   router.options('/company/:cid/conversation', cors())
   router.post('/company/:cid/conversation', cors(), (req, res) => {
