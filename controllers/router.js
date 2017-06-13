@@ -21,8 +21,8 @@ module.exports = function(router) {
    router.post('/message', (req, res) => {
      console.log('-----')
        console.log(req.body);
-       console.log(req);
        console.log('-----')
+       res.status(200).send();
     })
 
   //Create Conversation
