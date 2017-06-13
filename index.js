@@ -44,15 +44,15 @@ io.on('connection', function(socket){
         }
       }, (err, success) => {
         console.log(err);
-        console.log(success);
+        io.emit('server:sendMessage', {
+          conversationId: data.conversationId,
+          success,
+        });
 
       });
 
 
-    io.emit('server:sendMessage', {
-      conversationId: data.conversationId,
-      message,
-    });
+    
   });
 });
   mongoose.connect('mongodb://iqmetrix:1234abcd@ds121622.mlab.com:21622/ekho');
