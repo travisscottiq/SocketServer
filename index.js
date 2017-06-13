@@ -46,7 +46,7 @@ io.on('connection', function(socket){
         console.log(res);
         io.emit('server:sendMessage', {
           conversationId: data.conversationId,
-          message: res.communicationHistory[res.communicationHistory.length-1],
+          message: res.communicationHistory[res.communicationHistory.length],
         });
         console.log('post-send------');
       });
