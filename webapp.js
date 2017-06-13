@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Parse incoming form-encoded HTTP bodies
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Create and manage HTTP sessions for all requests
 app.use(session({
