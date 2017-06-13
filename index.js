@@ -15,15 +15,9 @@ var twilioClient = require('./twilioClient');
 
 // Create an HTTP server and listen on the configured port
 io.on('connection', function(socket){
-  console.log('a user connected');
   socket.on('disconnect', function(){
-    console.log('user disconnected');
   });
   
-  socket.on('client:sendMessage', function(msg){
-    console.log('message: ' + msg.message);
-  });
-
   socket.on('client:sendMessage', function(data){
     const message = { 
         message: data.message, 
@@ -45,23 +39,15 @@ io.on('connection', function(socket){
       }, {new: true}, (err, res) => {
 
         var selectedContactMethod = res.contactMethods.find(e => e.Id === res.selectedContactMethod);
-        console.log('&&&');
-        console.log(selectedContactMethod);
-        console.log('&&&');
+
         if(selectedContactMethod.ContactMethodTypeId === '3') {
-          console.log('sending message');
           twilioClient.sendSms('+1'+ selectedContactMethod.Value, message.message);
         }
-        console.log('pre-send------');
-        console.log(res);
-
-
 
         io.emit('server:sendMessage', {
           conversationId: data.conversationId,
           message: res.communicationHistory[res.communicationHistory.length-1],
         });
-        console.log('post-send------');
       });
 
 
