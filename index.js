@@ -33,7 +33,6 @@ io.on('connection', function(socket){
         }
     };
 
-    console.log(message);
     Conversation.find({ _id: ObjectId(data.conversationId)}, (found, result) => {
     });
     
@@ -43,12 +42,13 @@ io.on('connection', function(socket){
           communicationHistory: message
         }
       }, (err, success) => {
-        console.log(err);
+        console.log('pre-send------');
+        console.log(success);
         io.emit('server:sendMessage', {
           conversationId: data.conversationId,
           message: success,
         });
-
+        console.log('post-send------');
       });
 
 
