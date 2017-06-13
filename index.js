@@ -49,7 +49,7 @@ io.on('connection', function(socket){
         console.log(selectedContactMethod);
         console.log('&&&');
         if(selectedContactMethod.ContactMethodType === 3) {
-          twilioClient.sendSms('+'+ selectedContactMethod.Value, message.message);
+          twilioClient.sendSms('+1'+ selectedContactMethod.Value, message.message);
         }
         console.log('pre-send------');
         console.log(res);
