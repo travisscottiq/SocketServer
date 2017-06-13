@@ -46,7 +46,7 @@ io.on('connection', function(socket){
         console.log(err);
         io.emit('server:sendMessage', {
           conversationId: data.conversationId,
-          success,
+          message: success,
         });
 
       });
