@@ -28,9 +28,6 @@ io.on('connection', function(socket){
         }
     };
 
-    Conversation.find({ _id: ObjectId(data.conversationId)}, (found, result) => {
-    });
-    
     Conversation.findOneAndUpdate({ _id: ObjectId(data.conversationId) }, 
       { 
         $addToSet: { 
@@ -38,10 +35,12 @@ io.on('connection', function(socket){
         }
       }, {new: true}, (err, res) => {
 
-        var selectedContactMethod = res.contactMethods.find(e => e.Id === res.selectedContactMethod);
+        if(!message.user.isCustomer) {
+          var selectedContactMethod = res.contactMethods.find(e => e.Id === res.selectedContactMethod);
 
-        if(selectedContactMethod.ContactMethodTypeId === '3') {
-          twilioClient.sendSms('+1'+ selectedContactMethod.Value, message.message);
+          if(selectedContactMethod.ContactMethodTypeId === '3') {
+            twilioClient.sendSms('+1'+ selectedContactMethod.Value, message.message);
+          }
         }
 
         io.emit('server:sendMessage', {

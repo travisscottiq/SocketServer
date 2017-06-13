@@ -24,9 +24,30 @@ module.exports = function(router) {
        Conversation.findOne({'contactMethods.Value' : phoneNumber}, (err, res) => {
           if(err) console.log(err);
 
-          console.log('s%%%%%%%%%%%%%%%%%');
+           const message = { 
+              message: req.body.Body, 
+              createdAt : Date.now(),
+              user: {
+                id: res.customer.id,
+                isCustomer: true
+              }
+          };
+
+          Conversation.findOneAndUpdate({ _id: res._id }, 
+          { 
+            $addToSet: { 
+              communicationHistory: message
+            }
+          }, {new: true}, (err, res) => {
+
+            io.emit('server:sendMessage', {
+              conversationId: res._id,
+              message: res.communicationHistory[res.communicationHistory.length-1],
+            });
+          });
+    
+
           console.log(res);
-          console.log('e%%%%%%%%%%%%%%%%%');
         });
         res.status(200).send();
       })
