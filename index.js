@@ -41,7 +41,7 @@ io.on('connection', function(socket){
         $addToSet: { 
           communicationHistory: message
         }
-      }, (err, res) => {
+      }, {new: true}, (err, res) => {
         console.log('pre-send------');
         console.log(res);
         io.emit('server:sendMessage', {
