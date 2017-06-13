@@ -45,9 +45,6 @@ module.exports = function(router) {
               message: res.communicationHistory[res.communicationHistory.length-1],
             });
           });
-    
-
-          console.log(res);
         });
         res.status(200).send();
       })
