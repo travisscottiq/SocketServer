@@ -9,6 +9,7 @@ var io = require('socket.io').listen(server, {log: false,
 var mongoose = require('mongoose');
 var Conversation = require('./models/conversations');
 var ObjectId = require('mongodb').ObjectID;
+var twilioClient = require('./twilioClient');
 
 
 
@@ -42,8 +43,16 @@ io.on('connection', function(socket){
           communicationHistory: message
         }
       }, {new: true}, (err, res) => {
+
+        var selectedContactMethod = res.contactMethods.find(e => e.Id === res.selectedContactMethod);
+        if(selectedContactMethod.ContactMethodType === 3) {
+          twilioClient.sendSms('+'+ selectedContactMethod.Value, message.message);
+        }
         console.log('pre-send------');
         console.log(res);
+
+
+
         io.emit('server:sendMessage', {
           conversationId: data.conversationId,
           message: res.communicationHistory[res.communicationHistory.length-1],
