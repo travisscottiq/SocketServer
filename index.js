@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var Conversation = require('./models/conversations');
 var ObjectId = require('mongodb').ObjectID;
 var twilioClient = require('./twilioClient');
-
+app.set('socketio', io);
 
 
 // Create an HTTP server and listen on the configured port

@@ -19,11 +19,17 @@ module.exports = function(router) {
   });
 
    router.post('/message', (req, res) => {
-     console.log('-----')
-       console.log(req.body);
-       console.log('-----')
-       res.status(200).send();
-    })
+       var phoneNumber = req.body.From.substring(2);
+       var io = req.app.get('socketio');
+       Conversation.findOne({'contactMethods.Value' : phoneNumber}, (err, res) => {
+          if(err) console.log(err);
+
+          console.log('s%%%%%%%%%%%%%%%%%');
+          console.log(res);
+          console.log('e%%%%%%%%%%%%%%%%%');
+        });
+        res.status(200).send();
+      })
 
   //Create Conversation
   router.options('/company/:cid/conversation', cors())
