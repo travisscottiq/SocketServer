@@ -36,17 +36,17 @@ io.on('connection', function(socket){
     Conversation.find({ _id: ObjectId(data.conversationId)}, (found, result) => {
     });
     
-    Conversation.update({ _id: ObjectId(data.conversationId) }, 
+    Conversation.findOneAndUpdate({ _id: ObjectId(data.conversationId) }, 
       { 
         $addToSet: { 
           communicationHistory: message
         }
-      }, (err, success) => {
+      }, (err, res) => {
         console.log('pre-send------');
-        console.log(success);
+        console.log(res);
         io.emit('server:sendMessage', {
           conversationId: data.conversationId,
-          message: success,
+          message: res,
         });
         console.log('post-send------');
       });
