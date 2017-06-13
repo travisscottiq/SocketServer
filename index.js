@@ -36,9 +36,17 @@ io.on('connection', function(socket){
     console.log(message);
     Conversation.find({ _id: ObjectId(data.conversationId)}, (found, result) => {
     });
-    Conversation.update({ _id: ObjectId(data.conversationId) }, { 
-      $addToSet: { communicationHistory: message}
-    }, (err, success) => console.log(err));
+    
+    Conversation.update({ _id: ObjectId(data.conversationId) }, 
+      { 
+        $addToSet: { 
+          communicationHistory: message
+        }
+      }, (err, success) => {
+        console.log(err);
+        console.log(success);
+
+      });
 
 
     io.emit('server:sendMessage', {
