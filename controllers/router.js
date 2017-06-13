@@ -7,7 +7,7 @@ var cors = require('cors')
 
 var options = { 
   headers: {
-    'Authorization': 'Bearer Uk1ON4bqQzdSVk83Ut5-N1JMI1wRCAZgIyceAWp8AXk6PxcAIyQJbSAbfwQIInlvHBp3TQYKOHsGHxpvawZ-URR_AFUHfRtGOzV9',
+    'Authorization': 'Bearer WjEzSo6WPkpaKjJKWqIDSlowBT8NZWJ_P1QLBRVrYhxiX1w7PlJlPS4GAR0sAXZ7F1p_GjVGBgUdeWt4F0N_eilkATpjSH0wFHpS',
     'Content-Type': 'application/json'
   }
 }
