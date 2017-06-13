@@ -44,10 +44,10 @@ io.on('connection', function(socket){
         }
       }, {new: true}, (err, res) => {
 
-        var selectedContactMethod = res.contactMethods.find(e => e.Id === res.selectedContactMethod);
-        if(selectedContactMethod.ContactMethodType === 3) {
-          twilioClient.sendSms('+'+ selectedContactMethod.Value, message.message);
-        }
+        // var selectedContactMethod = res.contactMethods.find(e => e.Id === res.selectedContactMethod);
+        // if(selectedContactMethod.ContactMethodType === 3) {
+        //   twilioClient.sendSms('+'+ selectedContactMethod.Value, message.message);
+        // }
         console.log('pre-send------');
         console.log(res);
 
