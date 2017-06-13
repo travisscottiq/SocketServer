@@ -49,15 +49,14 @@ io.on('connection', function(socket){
           message: res.communicationHistory[res.communicationHistory.length-1],
         });
       });
-
-      app.post('/message', (req, res) => {
-        console.log(req.body);
-      })
     
   });
 });
 
-  
+   app.post('/message', (req, res) => {
+       console.log(req.body);
+    })
+
   mongoose.connect('mongodb://iqmetrix:1234abcd@ds121622.mlab.com:21622/ekho');
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
