@@ -9,20 +9,15 @@ var io = require('socket.io').listen(server, {log: false,
 var mongoose = require('mongoose');
 var Conversation = require('./models/conversations');
 var ObjectId = require('mongodb').ObjectID;
-
+var twilioClient = require('./twilioClient');
+app.set('socketio', io);
 
 
 // Create an HTTP server and listen on the configured port
 io.on('connection', function(socket){
-  console.log('a user connected');
   socket.on('disconnect', function(){
-    console.log('user disconnected');
   });
   
-  socket.on('client:sendMessage', function(msg){
-    console.log('message: ' + msg.message);
-  });
-
   socket.on('client:sendMessage', function(data){
     const message = { 
         message: data.message, 
@@ -33,25 +28,30 @@ io.on('connection', function(socket){
         }
     };
 
-    Conversation.find({ _id: ObjectId(data.conversationId)}, (found, result) => {
-    });
-    
     Conversation.findOneAndUpdate({ _id: ObjectId(data.conversationId) }, 
       { 
         $addToSet: { 
           communicationHistory: message
         }
       }, {new: true}, (err, res) => {
+
+        if(!message.user.isCustomer) {
+          var selectedContactMethod = res.contactMethods.find(e => e.Id === res.selectedContactMethod);
+
+          if(selectedContactMethod.ContactMethodTypeId === '3') {
+            twilioClient.sendSms('+1'+ selectedContactMethod.Value, message.message);
+          }
+        }
+
         io.emit('server:sendMessage', {
           conversationId: data.conversationId,
           message: res.communicationHistory[res.communicationHistory.length-1],
         });
       });
-
-
     
   });
 });
+
   mongoose.connect('mongodb://iqmetrix:1234abcd@ds121622.mlab.com:21622/ekho');
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));

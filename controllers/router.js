@@ -7,7 +7,7 @@ var cors = require('cors')
 
 var options = { 
   headers: {
-    'Authorization': 'Bearer MVB1Td3-ck0xS3RNMcNFTTFRAQ4JIhwZa2E9GloARToJMhcoeBEmL1o4ORRZFTc7RRQvNV09JCpcMR4ueSIUDGM2DAt7NzkffSMH',
+    'Authorization': 'Bearer WjEzSo6WPkpaKjJKWqIDSlowBT8NZWJ_P1QLBRVrYhxiX1w7PlJlPS4GAR0sAXZ7F1p_GjVGBgUdeWt4F0N_eilkATpjSH0wFHpS',
     'Content-Type': 'application/json'
   }
 }
@@ -17,6 +17,37 @@ module.exports = function(router) {
   router.get('/error', function(req, resp) {
     throw new Error('Derp. An error occurred.');
   });
+
+   router.post('/message', (req, res) => {
+       var phoneNumber = req.body.From.substring(2);
+       var io = req.app.get('socketio');
+       Conversation.findOne({'contactMethods.Value' : phoneNumber}, (err, res) => {
+          if(err) console.log(err);
+
+           const message = { 
+              message: req.body.Body, 
+              createdAt : Date.now(),
+              user: {
+                id: res.customer.id,
+                isCustomer: true
+              }
+          };
+
+          Conversation.findOneAndUpdate({ _id: res._id }, 
+          { 
+            $addToSet: { 
+              communicationHistory: message
+            }
+          }, {new: true}, (err, res) => {
+
+            io.emit('server:sendMessage', {
+              conversationId: res._id,
+              message: res.communicationHistory[res.communicationHistory.length-1],
+            });
+          });
+        });
+        res.status(200).send();
+      })
 
   //Create Conversation
   router.options('/company/:cid/conversation', cors())
