@@ -3,20 +3,12 @@ var fetch = require('node-fetch');
 var crmUrl = 'https://crmint.iqmetrix.net/v1/Companies({CompanyID})';
 var customerEndpoint = '/CustomerFull({CustomerID})'
 var Conversation = require('../models/conversations');
-var Customer = require('../models/customers');
 var cors = require('cors')
-
-var options = {
-  headers: {
-    'Authorization': 'Bearer WjEzSo6WPkpaKjJKWqIDSlowBT8NZWJ_P1QLBRVrYhxiX1w7PlJlPS4GAR0sAXZ7F1p_GjVGBgUdeWt4F0N_eilkATpjSH0wFHpS',
-    'Content-Type': 'application/json'
-  }
-}
 
 // Map routes to controller functions
 module.exports = function (router) {
   router.get('/error', function (req, resp) {
-    throw new Error('Derp. An error occurred.');
+    throw new Error('An error occurred.');
   });
 
   router.post('/message', (req, res) => {
